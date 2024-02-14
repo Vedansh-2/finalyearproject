@@ -1,55 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function Navbar(){
-return(
-  <>
-      <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+function Navbar() {
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
-        <a class="navbar-brand" href="/">
+  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
+  return (
+    <>
+      <nav className="navbar navbar-expand-lg">
+        <div className="container">
+          <button className="navbar-toggler" type="button" onClick={handleNavCollapse} aria-controls="navbarNav" aria-expanded={!isNavCollapsed} aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <a className="navbar-brand" href="/">
             <strong style={{color:"white"}}><span style={{color:"black"}}>Ways</span>2Track</strong>
-        </a>
+          </a>
+          <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
+            <ul className="navbar-nav mx-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/" style={{color:"white"}}>Home</a>
+              </li>
 
-        <div class="d-lg-none">
-            <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
+              <li className="nav-item">
+                <a className="nav-link" href="introduction" style={{color:"white"}}>About us</a>
+              </li>
 
-            <a href="product-detail.html" class="bi-bag custom-icon"></a>
-        </div>
+              <li className="nav-item">
+                <a className="nav-link" href="/contactus" style={{color:"white"}}>Contact us</a>
+              </li>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link " href="/" style={{color:"white"}}>Home</a>
-                </li>
- 
-                {/* <li class="nav-item">
-    n                 <a class="nav-link" href="#introduction" style={{color:"white"}}>About us</a>
-                 </li> */}
-
-                <li class="nav-item">
-                <a class="nav-link" href="/contactus" style={{color:"white"}}>Contact us</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Login" style={{color:"white"}}>Login/Sign Up</a>
-                </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/Login" style={{color:"white"}}>Login/Sign Up</a>
+              </li>
             </ul>
 
-            <div class="d-none d-lg-block">
-                <a href="/Login" class="bi-person custom-icon me-3"></a>
-
+            <div className="d-none d-lg-block">
+              <a href="/Login" className="bi-person custom-icon me-3"></a>
             </div>
+          </div>
         </div>
-    </div>
-</nav>
-     
-
-  </>
-)
+      </nav>
+    </>
+  );
 }
+
 export default Navbar;

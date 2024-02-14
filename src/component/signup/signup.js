@@ -1,10 +1,48 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import React, { useState } from "react";
 
 function Signup(){
+    const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+    const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 return(
     <>
-    <main>     
+    <main>  
+    <nav className="navbar navbar-expand-lg">
+        <div className="container">
+          <button className="navbar-toggler" type="button" onClick={handleNavCollapse} aria-controls="navbarNav" aria-expanded={!isNavCollapsed} aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <a className="navbar-brand" href="/">
+            <strong style={{color:"white"}}><span style={{color:"black"}}>Ways</span>2Track</strong>
+          </a>
+          <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
+            <ul className="navbar-nav mx-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/" style={{color:"white"}}>Home</a>
+              </li>
+
+              <li className="nav-item">
+                <a className="nav-link" href="introduction" style={{color:"white"}}>About us</a>
+              </li>
+
+              <li className="nav-item">
+                <a className="nav-link" href="/contactus" style={{color:"white"}}>Contact us</a>
+              </li>
+
+              <li className="nav-item">
+                <a className="nav-link" href="/Login" style={{color:"white"}}>Login/Sign Up</a>
+              </li>
+            </ul>
+
+            <div className="d-none d-lg-block">
+              <a href="/Login" className="bi-person custom-icon me-3"></a>
+            </div>
+          </div>
+        </div>
+      </nav>   
 <section class="sign-in-form section-padding">
     <div class="container">
         <div class="row">
@@ -54,11 +92,11 @@ return(
                                 <label for="confirm_password">Password Confirmation</label>
                             </div>
 
-                            <button type="submit" class="btn custom-btn form-control mt-4 mb-3" style={{border: '1px solid rgba(0, 0, 0, 0.1)'}}>
+                            <button type="submit" class="btn custom-btn form-control mt-4 mb-3" style={{border: '1px solid rgba(0, 0, 0, 0.1)', backgroundColor: 'blue', color:'white'}}>
                                 Create account
                             </button>
 
-                            <p class="text-center">Already have an account? Please <a href="sign-in.html">Sign In</a></p>
+                            <p class="text-center">Already have an account? Please <a href="/Login">Sign In</a></p>
 
                         </form>
                     </div>
