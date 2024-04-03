@@ -1,0 +1,68 @@
+@import "../../../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css";
+@import '../../../node_modules/@syncfusion/ej2-buttons/styles/bootstrap5.css';
+@import "../../../node_modules/@syncfusion/ej2-layouts/styles/bootstrap5.css";
+@import '../../../node_modules/@syncfusion/ej2-dropdowns/styles/bootstrap5.css';
+@import '../../../node_modules/@syncfusion/ej2-inputs/styles/bootstrap5.css';
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/bootstrap5.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/bootstrap5.css";
+@import "../../../node_modules/@syncfusion/ej2-react-kanban/styles/bootstrap5.css";
+
+/* Board.css */
+/* Board.css */
+
+.container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .project-name-box {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+  }
+  
+  .kanban-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .kanban-column {
+    width: 23%;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+  
+  .column-todo {
+    background-color: #ffc107;
+  }
+  
+  .column-inprogress {
+    background-color: #17a2b8;
+  }
+  
+  .column-review {
+    background-color: #28a745;
+  }
+  
+  .column-done {
+    background-color: #6c757d;
+  }
+  
+  .form-control {
+    margin-bottom: 10px;
+  }
+  
+  .btn {
+    cursor: pointer;
+  }
+  

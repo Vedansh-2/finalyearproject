@@ -20,7 +20,6 @@ function footer() {
             <ul class="footer-menu d-flex flex-wrap">
                 <li class="footer-menu-item"  style={{color:"white", textDecoration:"none"}}><a href="about.html" class="footer-menu-link">Story</a></li>
 
-
                 <li class="footer-menu-item"  style={{color:"white", textDecoration:"none"}}><a href="/aboutus" class="footer-menu-link">Privacy policy</a></li>
 
                 <li class="footer-menu-item"  style={{color:"white", textDecoration:"none"}}><a href="/aboutus" class="footer-menu-link">FAQs</a></li>

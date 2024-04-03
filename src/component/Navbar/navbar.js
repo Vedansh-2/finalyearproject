@@ -1,50 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { auth } from "../Firebase/Firebase";
+import { signOut } from "firebase/auth";
 
-function Navbar() {
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+function NavBar() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(currentUser => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Clean up the listener
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Call Firebase signOut method to log the user out
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container">
-          <button className="navbar-toggler" type="button" onClick={handleNavCollapse} aria-controls="navbarNav" aria-expanded={!isNavCollapsed} aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <a className="navbar-brand" href="/">
+    <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: '#e41919' }}>
+      <Container>
+     
+      <a className="navbar-brand" href="/">
             <strong style={{color:"white"}}><span style={{color:"black"}}>Ways</span>2Track</strong>
           </a>
-          <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/" style={{color:"white"}}>Home</a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link" href="introduction" style={{color:"white"}}>About us</a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link" href="/contactus" style={{color:"white"}}>Contact us</a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link" href="/Login" style={{color:"white"}}>Login/Sign Up</a>
-              </li>
-            </ul>
-
-            <div className="d-none d-lg-block">
-              <a href="/Login" className="bi-person custom-icon me-3"></a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/" style={{color:'white'}} >Home</Nav.Link>
+            <Nav.Link href="/aboutus" style={{color:'white'}} >About us</Nav.Link>
+            {user && <Nav.Link href="/Board" style={{color:'white'}} >Kanban Board</Nav.Link>} {/* Only show when user is logged in */}
+            <Nav.Link href="/contactus" style={{color:'white'}} >Contact us</Nav.Link>
+          </Nav>
+          <Nav>
+            {!user ? (
+              <Nav.Link href="/Login" style={{color:'white'}} >Login/Sign Up</Nav.Link>
+            ) : (
+              <div className="d-flex align-items-center">
+                <NavDropdown title={<i className="bi-person" style={{ fontSize: '1.5rem', color: 'white' }}></i>} id="collapsible-nav-dropdown" align="end">
+                  <NavDropdown.Item href="#" onClick={handleLogout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </div>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavBar;
