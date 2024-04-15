@@ -128,36 +128,41 @@ function Board() {
                 <h2 className="mt-2">{projectName}</h2>
             </div>
 
-            <div className="add-task-box mb-4">
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Task Summary"
-                    value={newTaskText}
-                    onChange={(e) => setNewTaskText(e.target.value)}
-                />
-                <button className="btn btn-primary mt-2" onClick={addNewTask}>
-                    Add Task
-                </button>
+            <div className="row">
+                <div className="col-md-3 add-task-section">
+                    <h5>Add Task "To Do"</h5>
+                    <div className="add-task-box mb-4">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Task"
+                            value={newTaskText}
+                            onChange={(e) => setNewTaskText(e.target.value)}
+                        />
+                        <button className="btn btn-primary mt-2" onClick={addNewTask}>
+                            Add Task
+                        </button>
+                    </div>
+                </div>
+                <div className="col-md-9">
+                    <KanbanComponent
+                        id="kanban"
+                        dataSource={data}
+                        keyField="Status"
+                        cardSettings={{ contentField: "Summary", headerField: "id" }}
+                        cardDragStop={handleCardDragStop}
+                    >
+                        <ColumnsDirective>
+                            <ColumnDirective headerText="To Do" keyField="To Do" />
+                            <ColumnDirective headerText="In Progress" keyField="In Progress" />
+                            <ColumnDirective headerText="Review" keyField="Review" />
+                            <ColumnDirective headerText="Done" keyField="Done" />
+                        </ColumnsDirective>
+                    </KanbanComponent>
+                </div>
             </div>
-
-            <KanbanComponent
-                id="kanban"
-                dataSource={data}
-                keyField="Status"
-                cardSettings={{ contentField: "Summary", headerField: "id" }}
-                cardDragStop={handleCardDragStop}
-            >
-                <ColumnsDirective>
-                    <ColumnDirective headerText="To Do" keyField="To Do" />
-                    <ColumnDirective headerText="In Progress" keyField="In Progress" />
-                    <ColumnDirective headerText="Review" keyField="Review" />
-                    <ColumnDirective headerText="Done" keyField="Done" />
-                </ColumnsDirective>
-            </KanbanComponent>
         </div>
     );
 }
 
 export default Board;
-

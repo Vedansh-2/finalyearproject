@@ -1,90 +1,102 @@
-import React, { Component } from 'react'; // Import Component from 'react'
-import './dashboard.css'; // Ensure this is the correct path to your CSS file
+import React, { useState, useEffect } from 'react';
+import { collection, addDoc, query, where, onSnapshot } from 'firebase/firestore';
+import { firestore } from '../Firebase/Firebase';
+import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';  // Import the authentication library
+import './dash.scss';
 
-class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            projects: [],
-            tasks: [],
-            selectedProjectId: null,
-        };
-    }
+function Dashboard() {
+    const [boards, setBoards] = useState([]);
+    const [newBoardName, setNewBoardName] = useState('');
+    const [newBoardDescription, setNewBoardDescription] = useState('');
+    const [showCreateBoard, setShowCreateBoard] = useState(false); // State to toggle input visibility
+    const navigate = useNavigate();
+    const auth = getAuth();  // Firebase Authentication instance
+    const user = auth.currentUser; // Currently logged-in user
 
-    componentDidMount() {
-        this.displayProjectLists();
-    }
+    useEffect(() => {
+        if (!user) return; // Ensure there is a user logged in
+        const boardRef = collection(firestore, "boards");
+        const q = query(boardRef, where("members", "array-contains", user.uid));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const boardsData = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            setBoards(boardsData);
+        });
 
-    displayProjectLists() {
-        const projects = [
-            { id: 'project1', name: 'Project 1' },
-            { id: 'project2', name: 'Project 2' }
-        ];
-        this.setState({ projects });
-    }
+        return () => unsubscribe();
+    }, [user]);
 
-    displayTaskLists(projectId) {
-        const tasks = [
-            { id: 'task1', name: 'Task 1', status: 'Pending' },
-            { id: 'task2', name: 'Task 2', status: 'Completed' }
-        ];
-        this.setState({ tasks, selectedProjectId: projectId });
-    }
+    const createBoard = async () => {
+        if (!newBoardName || !newBoardDescription) return;
+        await addDoc(collection(firestore, "boards"), {
+            name: newBoardName,
+            description: newBoardDescription,
+            creationDate: new Date().toISOString(),
+            adminId: user.uid, // Save the creator as 'admin'
+            members: [user.uid] // Also add the creator to the members list
+        });
+        setNewBoardName('');
+        setNewBoardDescription('');
+        setShowCreateBoard(false); // Hide inputs after creation
+    };
 
-    updateTaskStatus(taskId, newStatus) {
-        this.setState(prevState => ({
-            tasks: prevState.tasks.map(task =>
-                task.id === taskId ? { ...task, status: newStatus } : task
-            )
-        }));
-    }
+    const toggleCreateBoard = () => {
+        setShowCreateBoard(!showCreateBoard);
+    };
 
-    addNewTask(projectId, taskName) {
-        const newTask = { id: `task${Math.random()}`, name: taskName, status: 'Pending' };
-        this.setState(prevState => ({
-            tasks: [...prevState.tasks, newTask]
-        }));
-    }
+    const cancelCreateBoard = () => {
+        setShowCreateBoard(false);
+        setNewBoardName('');
+        setNewBoardDescription('');
+    };
 
-    assignTeamMemberToTask(taskId, memberId) {
-        console.log(`Assign member ${memberId} to task ${taskId}`);
-    }
-
-    renderProjectLists() {
-        return (
-            <ul className="project-list">
-                {this.state.projects.map(project => (
-                    <li key={project.id} onClick={() => this.displayTaskLists(project.id)}>
-                        {project.name}
-                    </li>
+    return (
+        <div className="container h-100">
+            <div className="row align-items-start">
+                <div className="col-12">
+                    <button className="btn btn-primary mb-3" onClick={toggleCreateBoard}>Create a Board</button>
+                </div>
+                {showCreateBoard && (
+                    <div className="col-12">
+                        <input
+                            type="text"
+                            className="form-control mb-2"
+                            placeholder="Board Name"
+                            value={newBoardName}
+                            onChange={(e) => setNewBoardName(e.target.value)}
+                        />
+                        <textarea
+                            className="form-control mb-2"
+                            placeholder="Board Description"
+                            value={newBoardDescription}
+                            onChange={(e) => setNewBoardDescription(e.target.value)}
+                        />
+                        <button className="btn btn-success" onClick={createBoard}>Create</button>
+                        <button className="btn btn-secondary" onClick={cancelCreateBoard}>Cancel</button>
+                    </div>
+                )}
+                {boards.map((board) => (
+                    <div key={board.id} className={`col-md-6 col-lg-4 ${getCardClassName()}`} onClick={() => navigate('/Table', { state: { boardId: board.id } })}>
+                        <div className="card">
+                            <div className="txt">
+                                <h1>{board.name}</h1>
+                                <p>{board.description}</p>
+                            </div>
+                            <a href="#" onClick={(e) => { e.preventDefault(); console.log('Remove or view user function here'); }}>Remove Me</a>
+                            <div className="ico-card">
+                                <i className="fa fa-rebel"></i>
+                            </div>
+                        </div>
+                    </div>
                 ))}
-            </ul>
-        );
-    }
-
-    renderTaskLists() {
-        return (
-            <ul className="task-list">
-                {this.state.tasks.map(task => (
-                    <li key={task.id}>
-                        {task.name} - {task.status}
-                        <button onClick={() => this.updateTaskStatus(task.id, 'Completed')}>Mark as Completed</button>
-                    </li>
-                ))}
-            </ul>
-        );
-    }
-
-    render() {
-        return (
-            <div className="dashboard-container">
-                <h1 className="dashboard-header">Project Management Dashboard</h1>
-                {this.renderProjectLists()}
-                {this.state.selectedProjectId && this.renderTaskLists()}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default Dashboard;
+const getCardClassName = () => {
+    const gradients = ['gr-1', 'gr-2', 'gr-3'];
+    return gradients[Math.floor(Math.random() * gradients.length)];
+};
 
+export default Dashboard;

@@ -36,7 +36,7 @@ function NavBar() {
           <Nav className="me-auto">
             <Nav.Link href="/" style={{color:'white'}} >Home</Nav.Link>
             <Nav.Link href="/aboutus" style={{color:'white'}} >About us</Nav.Link>
-            {user && <Nav.Link href="/Board" style={{color:'white'}} >Kanban Board</Nav.Link>} {/* Only show when user is logged in */}
+            {user && <Nav.Link href="/dashboard" style={{color:'white'}} >Dashboard</Nav.Link>} {/* Only show when user is logged in */}
             <Nav.Link href="/contactus" style={{color:'white'}} >Contact us</Nav.Link>
           </Nav>
           <Nav>

@@ -12,7 +12,7 @@ import Sticky from './component/stick/Sticky';
 import Navbar from './component/Navbar/navbar';
 import Aboutus from './component/Aboutus/aboutus';
 import Dashboard from './component/Dashboard/dashboard';
-import Kb from './component/KB/kb';
+import Table from './component/Table/Table';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,7 +28,7 @@ root.render(
         <Route path="/sticky" element={<Sticky />} />
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path='/kb' element={<Kb />} />
+        <Route path='/Table' element={<Table/>} />
         
 
       </Routes>
