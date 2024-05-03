@@ -1,12 +1,3 @@
-/*
-
-Tooplate 2127 Little Fashion
-
-https://www.tooplate.com/view/2127-little-fashion
-
-*/
-
-
 /*---------------------------------------
   CUSTOM PROPERTIES ( VARIABLES )             
 -----------------------------------------*/
@@ -969,6 +960,11 @@ button:focus:not(:focus-visible) {
   background: var(--dark-color);
   padding-top: 5rem;
   padding-bottom: 5rem;
+  position: static;
+  bottom: 0;
+  left:  0;
+  width: 100vw;
+  margin-top: 100px;
 }
 
 .footer-menu {
