@@ -18,6 +18,7 @@ function Profile() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // fetch their profile data from Firestore
                 const docRef = doc(firestore, "users", user.uid);
                 try {
                     const docSnap = await getDoc(docRef);
@@ -47,7 +48,7 @@ function Profile() {
     const handleEdit = () => {
         setEditMode(true);
     };
-
+// Saves the edited profile data to Firestore and exits edit.
     const handleSave = async () => {
         setEditMode(false);
         setLoading(true);
@@ -56,7 +57,7 @@ function Profile() {
             const docRef = doc(firestore, "users", user.uid);
             await updateDoc(docRef, {
                 name: userProfile.name,
-                email: userProfile.email,  // Assuming you have permissions to update email which usually isn't the case
+                email: userProfile.email,  
                 dob: userProfile.dob,
                 country: userProfile.country
             });

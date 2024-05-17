@@ -45,7 +45,7 @@ function NavBar() {
       <Container>
      
       <a className="navbar-brand" href="/">
-            <strong style={{color:"white"}}><span style={{color:"black"}}>Ways</span>2Track</strong>
+            <strong style={{color:"white"}}><span style={{color:"black"}}>Way</span>2Track</strong>
           </a>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

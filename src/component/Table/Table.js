@@ -60,7 +60,7 @@ function Table() {
       unsubscribeTasks();
     };
   }, [boardId]);
-
+ // Fetches member data from Firestore using their IDs.
   const fetchMembers = async (memberIds) => {
     const memberData = await Promise.all(
       memberIds.map(async memberId => {
@@ -71,11 +71,11 @@ function Table() {
     );
     setMembers(memberData);
   };
-
+ 
   const handleBack = () => {
     navigate('/dashboard');
   };
-
+ // Invite a user to the board by their email.
   const inviteUser = async () => {
     if (!inviteEmail || !boardId) return;
     const usersRef = collection(firestore, "users");
@@ -84,8 +84,8 @@ function Table() {
     if (querySnapshot.empty) {
       alert("No matching user found with that email");
       return;
-    }else{
-      alert( "The invitation have been send seccessfully.");
+    } else {
+      alert("The invitation have been send seccessfully.");
     }
     const userToAddId = querySnapshot.docs[0].id;
     const boardRef = doc(firestore, "boards", boardId);
@@ -95,7 +95,7 @@ function Table() {
     setMembers(prevMembers => [...prevMembers, { id: userToAddId, email: inviteEmail }]);
     setInviteEmail('');
   };
-
+  // Add a new task to the Firestore collection.
   const addTask = async () => {
     if (!newTaskName || !newTaskDescription || !boardId) return;
     await addDoc(collection(firestore, "taskboard"), {
@@ -117,7 +117,7 @@ function Table() {
   const toggleAddTask = () => {
     setShowAddTask(!showAddTask);
   };
-
+// Delete a task from the Firestore collection.
   const deleteTask = async (id) => {
     await deleteDoc(doc(firestore, "taskboard", id));
   };
@@ -135,7 +135,7 @@ function Table() {
       [id]: { ...prev[id], [field]: value }
     }));
   };
-
+ // Save edits made to a task.
   const saveTaskEdits = async (id) => {
     const taskToUpdate = taskEdits[id];
     const taskDocRef = doc(firestore, "taskboard", id);
@@ -156,7 +156,7 @@ function Table() {
   };
 
   return (
-    <div className="container-fluid mt-5" style={{minHeight: "40vh"}}>
+    <div className="container-fluid mt-5" style={{ minHeight: "40vh" }}>
       <div className="row">
         <div className="col-md-6">
           <button className="btn btn-secondary mb-3" onClick={handleBack}>

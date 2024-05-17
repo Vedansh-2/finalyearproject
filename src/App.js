@@ -1,10 +1,10 @@
-// Import React libraries and CSS for styling and layout
+// Import React libraries and CSS
 import React from 'react';
 import './App.css';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-// Import images for use in the app
+// Import images for use in the web
 import Image2 from "./assets/images/Image2.png";
 import Image3 from "./assets/images/Image3.png";
 import Image1 from "./assets/images/Image1.webp";
@@ -17,7 +17,6 @@ function App() {
   return (
     <>
       <main>
-
         <section class="slick-slideshow">
           <div class="slick-custom">
             <img src={Image5} class="img-fluid" alt="" />
@@ -74,8 +73,8 @@ function App() {
                           </div>
                         </div>
                       </Tab.Pane>
-                      <Tab.Pane eventKey="youtube">
-                        {/* Content for How we work? */}
+                      <Tab.Pane>
+                         {/* Content for How we work?  */}
                         <div className="d-flex flex-column h-100">
                           <h4 className="mb-3">In Way2Track</h4>
                           <p> One year in business, We’ve had the chance to work on a variety of projects, with companies</p>
